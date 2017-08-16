@@ -93,3 +93,5 @@ cmake-build-release/CMakeFiles/medida.dir/progress.make
 cmake-build-release/cmake_install.cmake
 cmake-build-release/libmedida.cbp
 cmake-build-release/medida.cbp
+cmake-build-debug/
+cmake-build-release/

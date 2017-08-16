@@ -1,5 +1,4 @@
-cmake_minimum_required (VERSION 2.8.3)
-
+cmake_minimum_required (VERSION 3.8)
 
 ## Metadata
 
@@ -10,19 +9,19 @@ set (medida_VERSION_PATCH 0)
 set (medida_VERSION_TAG "")
 set (medida_VERSION "${medida_VERSION_MAJOR}.${medida_VERSION_MINOR}.${medida_VERSION_PATCH}${medida_VERSION_TAG}")
 
-
 ## Configuration
 
 if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fno-diagnostics-show-option -std=c++0x -Wall -Wextra -pedantic -Wno-long-long -Wno-deprecated -fno-strict-aliasing")
+if((${CMAKE_COMPILER_IS_GNUCXX}) OR ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang"))
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fno-diagnostics-show-option -std=c++0x -Wall -Wextra -pedantic -Wno-long-long -Wno-deprecated -fno-strict-aliasing")
+endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     include(FindPkgConfig)
 endif()
-
 
 ## Source
 
@@ -39,7 +38,6 @@ set(medida_SOURCES
         src/medida/timer.cc
         src/medida/timer_context.cc
         src/medida/reporting/abstract_polling_reporter.cc
-        src/medida/reporting/collectd_reporter.cc
         src/medida/reporting/console_reporter.cc
         src/medida/reporting/json_reporter.cc
         src/medida/reporting/util.cc
@@ -81,7 +79,7 @@ include_directories(
         ${medida_BINARY_DIR}
 )
 
-add_library(medida SHARED
+add_library(medida STATIC
         ${medida_SOURCES}
         ${medida_PROTO_SRCS}
         )
