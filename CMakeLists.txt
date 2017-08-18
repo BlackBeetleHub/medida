@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 3.2.2)
 
 ## Metadata
 
@@ -15,7 +15,7 @@ if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
 
-if((${CMAKE_COMPILER_IS_GNUCXX}) OR ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang"))
+if((${CMAKE_COMPILER_IS_GNUCXX}) OR (CMAKE_CXX_COMPILER_ID MATCHES "Clang"))
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fno-diagnostics-show-option -std=c++0x -Wall -Wextra -pedantic -Wno-long-long -Wno-deprecated -fno-strict-aliasing")
 endif()
 
@@ -23,6 +23,14 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     include(FindPkgConfig)
 endif()
 
+if(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /GS /GL /W3 /Gy /Zc:wchar_t /Zi /Gm- /Od /sdl /Zc:inline /fp:precise /errorReport:prompt /WX- /Zc:forScope /Gd /Oi /MD /EHsc /nologo")
+    add_definitions(
+            -D_CRT_SECURE_NO_WARNINGS
+            -D_MBCS
+    )
+    set(CMAKE_STATIC_LINKER_FLAGS "${CMAKE_STATIC_LINKER_FLAGS} /LTCG /MACHINE:X64 /NOLOGO")
+endif()
 ## Source
 
 set(medida_SOURCES
