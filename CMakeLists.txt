@@ -10,7 +10,6 @@ set (medida_VERSION_TAG "")
 set (medida_VERSION "${medida_VERSION_MAJOR}.${medida_VERSION_MINOR}.${medida_VERSION_PATCH}${medida_VERSION_TAG}")
 
 ## Configuration
-
 if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
